@@ -13,7 +13,7 @@ class Article(models.Model):
     # 文章正文
     content = models.TextField()
     # 文章创建时间
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField(default=timezone.now,)
     # 文章更新时间
     updated_at = models.DateTimeField(auto_now=True)
 
