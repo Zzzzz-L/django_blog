@@ -12,7 +12,6 @@ from .forms import ArticleForm
 class ArticleView(View):
     def get(self, request):
         articles = Article.objects.all()
-        # 返回HttpResponse对象
         return render(request, 'article/list.html', {'articles': articles})
 
 
@@ -47,3 +46,29 @@ class AddArticleView(View):
         else:
             # 返回错误信息
             return HttpResponse("发布文章失败")
+
+
+# 删除文章
+class DeleteArticleView(View):
+    def post(self, request, article_id):
+        article = Article.objects.filter(pk=article_id).first()
+        article.delete()
+        return redirect("article:index")
+
+
+# 编辑文章
+class EditArticleView(View):
+    def get(self, request, article_id):
+        article = Article.objects.filter(pk=article_id).first()
+        return render(request, 'article/edit_article.html', {'article': article})
+
+    def post(self, request, article_id):
+        article = Article.objects.filter(pk=article_id).first()
+        article_form = ArticleForm(data=request.POST)
+        if article_form.is_valid():
+            article.title = article_form.cleaned_data['title']
+            article.content = article_form.cleaned_data['content']
+            article.save()
+            return redirect("article:index")
+        else:
+            return HttpResponse("编辑文章失败")
