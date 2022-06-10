@@ -17,9 +17,12 @@
         <h1 class="col-12 mt-4 mb-4">{{ article.title }}</h1>
         <div class="col-12 alert alert-success">作者：{{ article.author }}
             <!--删除-->
+            <!--如果用户已登录-->
+            {% if user.is_authenticated %}
             <a href="{% url 'article:delete' article.pk %}" class="btn btn-danger float-right">删除</a>
             <!--编辑-->
             <a href="{% url 'article:edit' article.pk %}" class="btn btn-primary float-right mr-2">编辑</a>
+            {% endif %}
         </div>
         <!-- 文章正文 -->
         <div class="col-12">
